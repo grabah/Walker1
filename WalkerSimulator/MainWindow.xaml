@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WalkerSimulator"
+        xmlns:tubesheet="clr-namespace:WalkerSimulator.tubesheet" x:Class="WalkerSimulator.MainWindow"
+        mc:Ignorable="d"
+        Title="WalkerSimulator" Height="450" Width="800" AllowDrop="True"       
+        ResizeMode="CanResizeWithGrip">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo/>
+    </Window.TaskbarItemInfo>
+
+    <Grid Margin="10,10,10,10">
+        <tubesheet:TubesheetControl x:Name="TubeSheetCtrl1" Loaded="TubeSheetCtrl1_Loaded" Margin="101,0,10,0" Width="Auto" />
+        <StackPanel HorizontalAlignment="Left" Height="145" Margin="-4,10,0,0" VerticalAlignment="Top" Width="100">
+            <Button Content="QuickLoad" Click="Button_Click"/>
+            <Button x:Name="LoadFileButton" Content="Load File" Click="LoadFileButton_Click" />
+          
+        </StackPanel>
+    </Grid>
+</Window>
