@@ -13,11 +13,17 @@
     </Window.TaskbarItemInfo>
 
     <Grid Margin="10,10,10,10">
-        <tubesheet:TubesheetControl x:Name="TubeSheetCtrl1" Loaded="TubeSheetCtrl1_Loaded" Margin="101,0,10,0" Width="Auto" />
-        <StackPanel HorizontalAlignment="Left" Height="145" Margin="-4,10,0,0" VerticalAlignment="Top" Width="100">
-            <Button Content="QuickLoad" Click="Button_Click"/>
+        <StackPanel HorizontalAlignment="Left" Height="114" Margin="0,0,0,0" VerticalAlignment="Top" Width="100">
+            <Button x:Name="QuickLoadButton" Content="QuickLoad" Click="Button_Click"/>
             <Button x:Name="LoadFileButton" Content="Load File" Click="LoadFileButton_Click" />
-          
         </StackPanel>
+        <Grid x:Name="RotateButtonsGrid" Margin="0,114,0,0" Height="270" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Background="White" Visibility="Collapsed" >
+            <Button x:Name="buttonMain" Content="Rotate" HorizontalAlignment="Left" Height="40" Margin="0,36,0,0" VerticalAlignment="Top" Width="90" Click="buttonMain_Click" />
+            <Button x:Name="buttonSec" Content="Rotate" HorizontalAlignment="Left" Height="40" Margin="0,112,0,0" VerticalAlignment="Top" Width="90" Click="buttonSec_Click"/>
+            <Label x:Name="label" Content="Main Axis" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Width="95"/>
+            <Label x:Name="label1" Content="Secondary Axis" Margin="0,81,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"/>
+        </Grid>
+        <Grid x:Name="TubeSheetGrid"  Margin="100,0,10,0" Width="Auto" Background="Beige">
+        </Grid>
     </Grid>
 </Window>

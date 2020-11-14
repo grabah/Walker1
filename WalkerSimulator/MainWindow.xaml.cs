@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WalkerSimulator.tubesheet;
+using WalkerSimulator.Tubesheet.ViewModels;
 
 namespace WalkerSimulator
 {
@@ -21,14 +23,10 @@ namespace WalkerSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        TubesheetView TubeSheetCtrl1;
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void TubeSheetCtrl1_Loaded(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void LoadFileButton_Click(object sender, RoutedEventArgs e)
@@ -36,18 +34,33 @@ namespace WalkerSimulator
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.FileOk += Dialog_FileOk;
             dialog.ShowDialog();
-           
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string path =  AppDomain.CurrentDomain.BaseDirectory + "\\files\\Tubesheet.xml";
-            TubeSheetCtrl1.LoadTubeSheet(path);
+            CreateTubeSheetCtrl(AppDomain.CurrentDomain.BaseDirectory + "\\files\\Tubesheet.xml");
         }
         private void Dialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            TubeSheetCtrl1.LoadTubeSheet(((OpenFileDialog)sender).FileName);
+            CreateTubeSheetCtrl(((OpenFileDialog)sender).FileName);
+        }
+        private void CreateTubeSheetCtrl(string path)
+        {
+            TubeSheetCtrl1 = new TubesheetView();
+            TubeSheetGrid.Children.Clear();
+            TubeSheetGrid.Children.Add(TubeSheetCtrl1);
+            TubeSheetCtrl1.LoadTubeSheet(path);
+            RotateButtonsGrid.Visibility = Visibility.Visible;
+
         }
 
-       
+        private void buttonMain_Click(object sender, RoutedEventArgs e)
+        {
+            ((TubeSheetVM)TubeSheetCtrl1.DataContext).Walker.RotateMainAxis();
+        }
+
+        private void buttonSec_Click(object sender, RoutedEventArgs e)
+        {
+            ((TubeSheetVM)TubeSheetCtrl1.DataContext).Walker.RotateSecAxis();
+        }
     }
 }

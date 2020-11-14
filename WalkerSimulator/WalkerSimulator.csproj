@@ -56,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,16 +76,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Tubesheet\TubeControl.xaml.cs">
-      <DependentUpon>TubeControl.xaml</DependentUpon>
+    <Compile Include="Tubesheet\TubeView.xaml.cs">
+      <DependentUpon>TubeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tubesheet\Models\TubeModel.cs" />
-    <Compile Include="Tubesheet\TubeSheetControl.xaml.cs">
-      <DependentUpon>TubeSheetControl.xaml</DependentUpon>
+    <Compile Include="Tubesheet\TubeSheetView.xaml.cs">
+      <DependentUpon>TubeSheetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tubesheet\Models\TubeSheetModel.cs" />
     <Compile Include="Tubesheet\ViewModels\TubeSheetVM.cs" />
     <Compile Include="Tubesheet\ViewModels\TubeVM.cs" />
+    <Compile Include="Tubesheet\ViewModels\WalkerVM.cs" />
+    <Compile Include="Tubesheet\WalkerView.xaml.cs">
+      <DependentUpon>WalkerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tubesheet\Models\WalkerModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,11 +103,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Tubesheet\TubeControl.xaml">
+    <Page Include="Tubesheet\TubeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tubesheet\TubeSheetControl.xaml">
+    <Page Include="Tubesheet\TubeSheetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tubesheet\WalkerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,6 +134,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="files\Walker.docx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

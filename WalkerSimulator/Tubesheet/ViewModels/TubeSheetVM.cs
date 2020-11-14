@@ -16,25 +16,42 @@ namespace WalkerSimulator.Tubesheet.ViewModels
 
         public int RowsNum {get{ return _tubeSheet.MaxRows; }}
         public int ColumnsNum { get { return _tubeSheet.MaxColumns; } }
-        public TubeVM[,] TubeVMs { get; set; }
+        public TubeVM[,] Tubes { get; set; }
+        public WalkerVM Walker { get; set; }
         public TubeSheetVM()
         {
-            _tubeSheet = new TubesheetModel();
+         
            
         }
         public void LoadTubeSheet(string path)
         {
             LoadTubeSheetFile(path);
-            CreateTubesVM();
+            CreateTubes();
+            CreatteWalker();
         }
-        private void CreateTubesVM()
+
+        private void CreatteWalker()
         {
-          TubeVMs = new TubeVM[RowsNum, ColumnsNum];
+            WalkerModel walkerModel = new WalkerModel(_tubeSheet);
+            Walker = new WalkerVM(this, walkerModel);
+        }
+
+        internal float GetPitch()
+        {
+            return _tubeSheet.Pitch;
+        }
+        internal float GetDiameter()
+        {
+            return _tubeSheet.Diameter;
+        }
+        private void CreateTubes()
+        {
+          Tubes = new TubeVM[RowsNum, ColumnsNum];
           for(int i=0;i<RowsNum;i++)
             {
                 for(int j = 0;j< ColumnsNum; j++)
                 {
-                    TubeVMs[i, j] = new TubeVM(_tubeSheet.Tubes[i, j]) { Pitch = _tubeSheet.Pitch, Diameter=_tubeSheet.Diameter };
+                    Tubes[i, j] = new TubeVM(_tubeSheet.Tubes[i, j]) { Pitch = _tubeSheet.Pitch, Diameter=_tubeSheet.Diameter };
                 }
             }
         }
@@ -43,8 +60,7 @@ namespace WalkerSimulator.Tubesheet.ViewModels
         {
             XmlDocument xml = new XmlDocument();
             xml.Load(path);
-            _tubeSheet.LoadXml(xml.SelectSingleNode("TubesheetModel"));
+            _tubeSheet = new TubesheetModel(xml.SelectSingleNode("TubesheetModel"));
         }
-        
     }
 }

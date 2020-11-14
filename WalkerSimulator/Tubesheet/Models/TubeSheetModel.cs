@@ -11,6 +11,11 @@ namespace WalkerSimulator.Tubesheet.Models
 {
     public class TubesheetModel
     {
+        public TubesheetModel(XmlNode xmlNode)
+        {
+            CreateTubes(LoadXml(xmlNode));
+        }
+
         public float Pitch { get; set; }
         public float Diameter { get; set; }
         public int MaxRows { get; set; }
@@ -27,7 +32,7 @@ namespace WalkerSimulator.Tubesheet.Models
             //Check if some tubes are missing
         }
 
-        internal void LoadXml(XmlNode xmlNode)
+        private List<TubeModel> LoadXml(XmlNode xmlNode)
         {
             Diameter = float.Parse(xmlNode.SelectSingleNode("TubesheetDiameter").InnerText,CultureInfo.InvariantCulture);
             Pitch = float.Parse(xmlNode.SelectSingleNode("TubesheetPitch").InnerText, CultureInfo.InvariantCulture);
@@ -40,7 +45,7 @@ namespace WalkerSimulator.Tubesheet.Models
                 if (MaxRows < tube.Row) MaxRows = tube.Row;
                 if (MaxColumns < tube.Column) MaxColumns = tube.Column;
             }
-            CreateTubes(tempList);
+            return tempList;
         }
     }
 }

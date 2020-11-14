@@ -18,9 +18,9 @@ namespace WalkerSimulator.tubesheet
     /// <summary>
     /// Interaction logic for TubeControl.xaml
     /// </summary>
-    public partial class TubeControl : UserControl
+    public partial class TubeView : UserControl
     {
-        public TubeControl()
+        public TubeView()
         {
             InitializeComponent();
         }

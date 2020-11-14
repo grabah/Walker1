@@ -21,34 +21,39 @@ namespace WalkerSimulator.tubesheet
     /// <summary>
     /// Interaction logic for TubesheetControl.xaml
     /// </summary>
-    public partial class TubesheetControl : UserControl
+    public partial class TubesheetView : UserControl
     {
-        public TubesheetControl()
+        public TubesheetView()
         {
-            InitializeComponent();  
+            InitializeComponent();
         }
         public void LoadTubeSheet(string path)
         {
             TubeSheetVM vm = new TubeSheetVM();
             vm.LoadTubeSheet(path);
             CreateTubeCtrls(vm);
+
+            Walker1.DataContext = vm.Walker;
+            vm.Walker.PropertyChanged += Walker1.WalkerVM_PropertyChanged;
             this.DataContext = vm;
         }
+
         private void CreateTubeCtrls(TubeSheetVM vm)
         {
             int rows = vm.RowsNum;
             int columns = vm.ColumnsNum;
-            TubeVM[,] tubeVms = vm.TubeVMs;
-            mainGrid.Children.Clear();
-            for (int i = rows-1; i >=0 ; i--)
+            TubeVM[,] tubeVms = vm.Tubes;
+            TubesGrid.Children.Clear();
+            for (int i = rows - 1; i >= 0; i--)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    TubeControl ctrl = new TubeControl();
-                    mainGrid.Children.Add(ctrl);
+                    TubeView ctrl = new TubeView();
+                    TubesGrid.Children.Add(ctrl);
                     ctrl.DataContext = tubeVms[i, j];
                 }
             }
         }
+       
     }
 }

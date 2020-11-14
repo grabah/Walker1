@@ -20,8 +20,7 @@ namespace WalkerSimulator.Tubesheet.ViewModels
         public float Pitch { get; set; }
         public float Diameter { get; set; }
         public string TubeColorCode { get { return StatusToColor(_tube.Status); } }
-      
- 
+
         private string StatusToColor(TubeStatus status)
         {
             switch (status)
