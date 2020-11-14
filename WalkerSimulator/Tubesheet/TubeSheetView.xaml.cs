@@ -16,7 +16,7 @@ using WalkerSimulator.Tubesheet;
 using WalkerSimulator.Tubesheet.Models;
 using WalkerSimulator.Tubesheet.ViewModels;
 
-namespace WalkerSimulator.tubesheet
+namespace WalkerSimulator.Tubesheet
 {
     /// <summary>
     /// Interaction logic for TubesheetControl.xaml

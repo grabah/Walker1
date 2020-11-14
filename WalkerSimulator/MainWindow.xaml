@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WalkerSimulator"
-        xmlns:tubesheet="clr-namespace:WalkerSimulator.tubesheet" x:Class="WalkerSimulator.MainWindow"
+        xmlns:tubesheet="clr-namespace:WalkerSimulator.Tubesheet" x:Class="WalkerSimulator.MainWindow"
         mc:Ignorable="d"
         Title="WalkerSimulator" Height="450" Width="800" AllowDrop="True"       
         ResizeMode="CanResizeWithGrip">
@@ -17,13 +17,9 @@
             <Button x:Name="QuickLoadButton" Content="QuickLoad" Click="Button_Click"/>
             <Button x:Name="LoadFileButton" Content="Load File" Click="LoadFileButton_Click" />
         </StackPanel>
-        <Grid x:Name="RotateButtonsGrid" Margin="0,114,0,0" Height="270" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Background="White" Visibility="Collapsed" >
-            <Button x:Name="buttonMain" Content="Rotate" HorizontalAlignment="Left" Height="40" Margin="0,36,0,0" VerticalAlignment="Top" Width="90" Click="buttonMain_Click" />
-            <Button x:Name="buttonSec" Content="Rotate" HorizontalAlignment="Left" Height="40" Margin="0,112,0,0" VerticalAlignment="Top" Width="90" Click="buttonSec_Click"/>
-            <Label x:Name="label" Content="Main Axis" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Width="95"/>
-            <Label x:Name="label1" Content="Secondary Axis" Margin="0,81,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"/>
-        </Grid>
-        <Grid x:Name="TubeSheetGrid"  Margin="100,0,10,0" Width="Auto" Background="Beige">
+        
+        <Grid  Margin="100,0,10,0" Width="Auto" Background="Beige">
+            <StackPanel  x:Name="TubeSheetGrid" Orientation="Horizontal"/>
         </Grid>
     </Grid>
 </Window>

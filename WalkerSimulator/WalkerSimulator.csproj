@@ -76,6 +76,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tubesheet\WalkerCommandsView.xaml.cs">
+      <DependentUpon>WalkerCommandsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tubesheet\TubeView.xaml.cs">
       <DependentUpon>TubeView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Tubesheet\WalkerCommandsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tubesheet\TubeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,7 +150,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WalkerAlgoritam\WalkerAlgoritam.csproj">
+      <Project>{ea75cce2-40e8-4a59-abd0-d18c3a3f3523}</Project>
+      <Name>WalkerAlgoritam</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>

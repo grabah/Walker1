@@ -37,7 +37,10 @@ namespace WalkerSimulator.Tubesheet.Models
         public bool SecAxisLocked { get { return !MainAxisLocked; } set { MainAxisLocked = !value; } }
 
         public Point RotationCenterPosition { get; set; }
- 
+        private int logCount;
+        private StringBuilder movesLog=new StringBuilder();
+        public string MovesLog { get { return movesLog.ToString(); } }
+
         internal Point GetWorkHeadPosition()
         {
             Point result = GetMainAxisPincerPoints()[1];
@@ -140,10 +143,13 @@ namespace WalkerSimulator.Tubesheet.Models
             OnPropertyChange("WalkerMakeMove");
         }
 
-        public bool WalkerMakeMove(WalkerMove move)
+        public bool WalkerMakeMove(WalkerMove move, bool undo=false)
         {
             if (!IsMoveLegal(move))
+            {
+                LogMove(move, true);
                 return false;
+            }
             switch (move.type)
             {
                 case WalkerMoveType.MainAxisRotate:
@@ -157,20 +163,26 @@ namespace WalkerSimulator.Tubesheet.Models
                     break;
                 case WalkerMoveType.SecondaryAxisTranslate:
                     DoSecAxisTranslation(move.translation);
-                    
                     break;
             }
             if (IsPointOutsideOfSheet(GetWorkHeadPosition()))
             {
-                OnPropertyChange("WalkerMakeMove");//temp
+                LogMove(move, true);
                 UndoMove(move);
                 return false;
             }
+           if(!undo)
+                LogMove(move,false);
+
             OnPropertyChange("WalkerMakeMove");//temp
             return true;
         }
 
-       
+        private void UndoMove(WalkerMove move)
+        {
+            move.translation = -move.translation;
+            WalkerMakeMove(move,true);
+        }
         private void DoSecAxisTranslation(int translation)
         {
             MainAxisLocked = true;
@@ -263,12 +275,6 @@ namespace WalkerSimulator.Tubesheet.Models
         }
 
         //MovingChecks
-        private void UndoMove(WalkerMove move)
-        {
-            move.translation = -move.translation;
-            WalkerMakeMove(move);
-        }
-
         private bool IsPointOutsideOfSheet(Point pt)
         {
             if (pt.X > _tubeSheet.MaxColumns || pt.X < 0)
@@ -305,6 +311,26 @@ namespace WalkerSimulator.Tubesheet.Models
 
             return _tubeSheet.Tubes[points[0].Y, points[0].X].CanPincersLock() && _tubeSheet.Tubes[points[1].Y, points[1].X].CanPincersLock();
         }
+
+        //Loging
+        private void LogMove(WalkerMove move, bool ilegalAttemp)
+        {
+            if (ilegalAttemp)
+                movesLog.AppendLine(logCount.ToString() + ". ***Illegal attemp***" + move.ToString());
+            else
+            {
+                movesLog.AppendLine(logCount.ToString() + ". " + move.ToString());
+                logCount++;
+            }
+            OnPropertyChange("MovesLog");
+        }
+        public void ClearLog()
+        {
+            movesLog.Clear();
+            logCount = 1;
+            OnPropertyChange("MovesLog");
+        }
+
     }
     public enum AxisPosition
     {
@@ -328,5 +354,13 @@ namespace WalkerSimulator.Tubesheet.Models
     {
         public WalkerMoveType type;
         public int translation;
+
+        public override string ToString()
+        {
+            if (translation != 0)
+                return type.ToString() + " t:" + translation.ToString();
+            else
+                return type.ToString();
+        }
     }
 }

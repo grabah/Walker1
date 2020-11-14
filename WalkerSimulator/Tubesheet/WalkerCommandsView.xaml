@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="WalkerSimulator.Tubesheet.WalkerCommandsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WalkerSimulator.Tubesheet"
+             mc:Ignorable="d"   Background="White" Width="318.333">
+    <Grid>
+        <Grid x:Name="RotateButtonsGrid" Height="384" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100"  Visibility="Visible" >
+            <Button x:Name="buttonMain" Content="Rotate" Height="40" Margin="5,36,5,0" VerticalAlignment="Top" Click="buttonMain_Click" />
+            <Button x:Name="buttonSec" Content="Rotate" Height="40" Margin="5,112,5,0" VerticalAlignment="Top" Click="buttonSec_Click"/>
+            <Label x:Name="label" Content="Main Axis" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Width="95"/>
+            <Label x:Name="label1" Content="Secondary Axis" Margin="0,81,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"/>
+            <Button x:Name="buttonStartWalker" Content="Start" Margin="5,194,5,0" VerticalAlignment="Top" Height="36"/>
+            <Button x:Name="buttonClear" Content="ClearTargets" Margin="5,241,5,0" VerticalAlignment="Top" Height="36" Click="buttonClear_Click"/>
+        </Grid>
+        <Grid Margin="105,0,0,0">
+            <TextBox x:Name="textBox"  TextWrapping="NoWrap" Text="{Binding MovesLog}" />
+        </Grid>
+    </Grid>
+</UserControl>

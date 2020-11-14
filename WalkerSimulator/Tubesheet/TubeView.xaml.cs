@@ -12,8 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WalkerSimulator.Tubesheet.Models;
+using WalkerSimulator.Tubesheet.ViewModels;
 
-namespace WalkerSimulator.tubesheet
+namespace WalkerSimulator.Tubesheet
 {
     /// <summary>
     /// Interaction logic for TubeControl.xaml
@@ -23,6 +25,11 @@ namespace WalkerSimulator.tubesheet
         public TubeView()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((TubeVM)this.DataContext).ChangeStatus(TubeStatus.Target);
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
 namespace WalkerSimulator.Tubesheet.Models
 {
-    public class TubeModel
+    public class TubeModel:INotifyPropertyChanged
     {
         public TubeModel(XmlNode node)
         {
@@ -19,9 +21,21 @@ namespace WalkerSimulator.Tubesheet.Models
         /////////////////////////////////////////
 
         //Model
-        internal TubeStatus Status { get; set; }
+        private TubeStatus oldStatus;
+        private TubeStatus status;
+        internal TubeStatus Status { get { return status; }  set { oldStatus = status; status = value; OnPropertyChange(); } }
         internal int Row { get; set; }
         internal int Column { get; set; }
+
+        internal void ChangeStatus(TubeStatus target)
+        {
+            if (Status == TubeStatus.Target && target == TubeStatus.Target)
+                Status = oldStatus;
+            else
+                Status = target;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         internal bool CanPincersLock()
         {
@@ -29,12 +43,20 @@ namespace WalkerSimulator.Tubesheet.Models
                 return false;
             return true;
         }
+        private void OnPropertyChange([CallerMemberName] string property = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
     }
 
     enum TubeStatus
     { 
         Unknown = 0,
         Plugged = 1,
-        Critical = 2
+        Critical = 2,
+        Target
     }
 }

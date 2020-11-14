@@ -32,11 +32,11 @@ namespace WalkerSimulator.Tubesheet.ViewModels
 
         //ViewModel
 
+        public string MovesLog { get { return _walkerModel.MovesLog; } set { } }
 
         public float Pitch { get { return _tubeSheetVM.GetPitch();  }}
-        public float WorkHeadSize { get { return _tubeSheetVM.GetPitch(); } }
 
-       
+        public float WorkHeadSize { get { return _tubeSheetVM.GetPitch(); } }
 
         public double WHX { get { return _walkerModel.GetWorkHeadPosition().X * Pitch; } }
         public double WHY { get { return _walkerModel.GetWorkHeadPosition().Y * Pitch; } }
@@ -92,7 +92,6 @@ namespace WalkerSimulator.Tubesheet.ViewModels
                 return false;//no move
 
             return _walkerModel.WalkerMakeMove(new WalkerMove() { type = WalkerMoveType.MainAxisTranslate, translation = T });
-
         }
 
         internal bool SlideSecAxis(Point newPoint, Point oldPoint)
@@ -134,8 +133,13 @@ namespace WalkerSimulator.Tubesheet.ViewModels
             
             return true;
         }
+        internal void ClearMovesLog()
+        {
+            _walkerModel.ClearLog();
+        }
         private void _walkerModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            
             //call OnPropertyChange with apropriate property name/names
             OnPropertyChange(e.PropertyName);
         }

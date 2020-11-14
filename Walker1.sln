@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkerSimulator", "WalkerSimulator\WalkerSimulator.csproj", "{F9761FDD-1C74-42D6-8D59-D43910862364}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkerAlgoritam", "WalkerAlgoritam\WalkerAlgoritam.csproj", "{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F9761FDD-1C74-42D6-8D59-D43910862364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9761FDD-1C74-42D6-8D59-D43910862364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9761FDD-1C74-42D6-8D59-D43910862364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

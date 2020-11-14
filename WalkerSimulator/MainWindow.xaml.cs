@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WalkerSimulator.tubesheet;
+using WalkerSimulator.Tubesheet;
 using WalkerSimulator.Tubesheet.ViewModels;
 
 namespace WalkerSimulator
@@ -23,7 +23,7 @@ namespace WalkerSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        TubesheetView TubeSheetCtrl1;
+      
         public MainWindow()
         {
             InitializeComponent();
@@ -45,22 +45,14 @@ namespace WalkerSimulator
         }
         private void CreateTubeSheetCtrl(string path)
         {
-            TubeSheetCtrl1 = new TubesheetView();
+            TubesheetView TubeSheetCtrl1 = new TubesheetView();
+            WalkerCommandsView commandsView = new WalkerCommandsView();
             TubeSheetGrid.Children.Clear();
-            TubeSheetGrid.Children.Add(TubeSheetCtrl1);
             TubeSheetCtrl1.LoadTubeSheet(path);
-            RotateButtonsGrid.Visibility = Visibility.Visible;
-
-        }
-
-        private void buttonMain_Click(object sender, RoutedEventArgs e)
-        {
-            ((TubeSheetVM)TubeSheetCtrl1.DataContext).Walker.RotateMainAxis();
-        }
-
-        private void buttonSec_Click(object sender, RoutedEventArgs e)
-        {
-            ((TubeSheetVM)TubeSheetCtrl1.DataContext).Walker.RotateSecAxis();
+            commandsView.DataContext = ((TubeSheetVM)TubeSheetCtrl1.DataContext).Walker;
+            commandsView.SetupTextBox();
+            TubeSheetGrid.Children.Add(commandsView);
+            TubeSheetGrid.Children.Add(TubeSheetCtrl1);
         }
     }
 }
