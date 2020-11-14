@@ -22,6 +22,13 @@ namespace WalkerSimulator.Tubesheet.Models
         internal TubeStatus Status { get; set; }
         internal int Row { get; set; }
         internal int Column { get; set; }
+
+        internal bool CanPincersLock()
+        {
+            if (Status == TubeStatus.Plugged)
+                return false;
+            return true;
+        }
     }
 
     enum TubeStatus

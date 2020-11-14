@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="311.918" d:DesignWidth="420.274">
 
-    <Canvas x:Name="WalkerCanvas" MouseMove="WalkerCanvas_MouseMove" MouseUp="WalkerCanvas_MouseUp">
+    <Canvas x:Name="WalkerCanvas" MouseMove="WalkerCanvas_MouseMove" MouseUp="WalkerCanvas_MouseUp" >
         <Canvas.LayoutTransform>
             <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
         </Canvas.LayoutTransform>
@@ -31,7 +31,7 @@
 
         <Ellipse x:Name="WorkHead" Width="{Binding WorkHeadSize}" Height="{Binding WorkHeadSize}" 
                  Canvas.Top="{Binding WHY}" Canvas.Left="{Binding WHX}" Fill="#B2342222" />
-        
+
         <Ellipse x:Name="CenterHead" Width="{Binding CenterSize}" Height="{Binding CenterSize}"
                 Canvas.Top="{Binding CenterY}" Canvas.Left="{Binding CenterX}" Fill="White" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave" MouseDown="CenterHead_MouseDown" />
 

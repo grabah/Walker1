@@ -160,15 +160,20 @@ namespace WalkerSimulator.Tubesheet.Models
                     
                     break;
             }
+            if (IsPointOutsideOfSheet(GetWorkHeadPosition()))
+            {
+                OnPropertyChange("WalkerMakeMove");//temp
+                UndoMove(move);
+                return false;
+            }
             OnPropertyChange("WalkerMakeMove");//temp
             return true;
         }
-        private bool IsMoveLegal(WalkerMove move)
-        {
-            return true;
-        }
+
+       
         private void DoSecAxisTranslation(int translation)
         {
+            MainAxisLocked = true;
             if (SecAxisTranslation + translation > SecAxisMaxTranslate) //over the maximum translation
                 translation = SecAxisMaxTranslate - SecAxisTranslation; //just set it to max
 
@@ -181,6 +186,7 @@ namespace WalkerSimulator.Tubesheet.Models
 
         private void DoMainAxisTranslation(int translation)
         {
+            SecAxisLocked = true;
             if (MainAxisTranslation + translation > MainAxisMaxTranslate) //over the maximum translation
                 translation = MainAxisMaxTranslate - MainAxisTranslation; //just set it to max
 
@@ -215,6 +221,7 @@ namespace WalkerSimulator.Tubesheet.Models
 
         private void DoMainAxisRotation()
         {
+            SecAxisLocked = true;
             int rotation;
 
             if (CircularRotation(MainAxisAngle, 1) == SecAxisAngle)
@@ -225,6 +232,7 @@ namespace WalkerSimulator.Tubesheet.Models
         }
         private void DoSecAxisRotation()
         {
+            MainAxisLocked = true;
             int rotation;
 
             if (CircularRotation(SecAxisAngle, -1) == MainAxisAngle)
@@ -253,7 +261,50 @@ namespace WalkerSimulator.Tubesheet.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
-         
+
+        //MovingChecks
+        private void UndoMove(WalkerMove move)
+        {
+            move.translation = -move.translation;
+            WalkerMakeMove(move);
+        }
+
+        private bool IsPointOutsideOfSheet(Point pt)
+        {
+            if (pt.X > _tubeSheet.MaxColumns || pt.X < 0)
+                return true;
+            if (pt.Y > _tubeSheet.MaxRows || pt.Y < 0)
+                return true; ;
+            return false;
+        }
+
+        private bool IsMoveLegal(WalkerMove move)
+        {
+            if (move.type == WalkerMoveType.MainAxisRotate || move.type == WalkerMoveType.MainAxisTranslate)
+            {
+                if (CanPincersBeLocked(GetSecAxisPincerPoints()))
+                {
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                if (CanPincersBeLocked(GetMainAxisPincerPoints()))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        private bool CanPincersBeLocked(Point[] points)
+        {
+            if (IsPointOutsideOfSheet(points[0]) || IsPointOutsideOfSheet(points[1]))
+                return false;
+
+            return _tubeSheet.Tubes[points[0].Y, points[0].X].CanPincersLock() && _tubeSheet.Tubes[points[1].Y, points[1].X].CanPincersLock();
+        }
     }
     public enum AxisPosition
     {

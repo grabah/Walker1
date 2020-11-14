@@ -25,8 +25,8 @@ namespace WalkerSimulator.Tubesheet.ViewModels
 
         private const int AxisThicknessLocked = 15;
         private const int AxisThicknessFree = 5;
-        private  Color PincersLockedColor = Colors.DarkRed;
-        private Color PincersUnLockedColor = Colors.Orange;
+        private  string PincersLockedColor = "Red";
+        private string PincersUnLockedColor = "#4C991717";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -91,13 +91,13 @@ namespace WalkerSimulator.Tubesheet.ViewModels
             if (Math.Abs(T) < 1)
                 return false;//no move
 
-            _walkerModel.WalkerMakeMove(new WalkerMove() { type = WalkerMoveType.MainAxisTranslate, translation = T });
-            return true;
+            return _walkerModel.WalkerMakeMove(new WalkerMove() { type = WalkerMoveType.MainAxisTranslate, translation = T });
+
         }
 
         internal bool SlideSecAxis(Point newPoint, Point oldPoint)
         {
-            int T=0;
+            int T = 0;
             switch (_walkerModel.SecAxisAngle)
             {
                 case AxisPosition.Right:
@@ -116,8 +116,7 @@ namespace WalkerSimulator.Tubesheet.ViewModels
             if (Math.Abs(T) < 1)
                 return false;//no move
 
-            _walkerModel.WalkerMakeMove(new WalkerMove() { type = WalkerMoveType.SecondaryAxisTranslate, translation = T });
-            return true;
+            return _walkerModel.WalkerMakeMove(new WalkerMove() { type = WalkerMoveType.SecondaryAxisTranslate, translation = T });
         }
         internal bool RotateMainAxis( )
         {
