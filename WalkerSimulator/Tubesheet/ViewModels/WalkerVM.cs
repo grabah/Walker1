@@ -41,8 +41,8 @@ namespace WalkerSimulator.Tubesheet.ViewModels
         public double WHX { get { return _walkerModel.GetWorkHeadPosition().X * Pitch; } }
         public double WHY { get { return _walkerModel.GetWorkHeadPosition().Y * Pitch; } }
 
-        public double CenterX { get { return _walkerModel.CenterPosition.X * Pitch; } }
-        public double CenterY { get { return _walkerModel.CenterPosition.Y * Pitch; } }
+        public double CenterX { get { return _walkerModel.RotationCenterPosition.X * Pitch; } }
+        public double CenterY { get { return _walkerModel.RotationCenterPosition.Y * Pitch; } }
         public float CenterSize  { get { return Pitch; } }
 
         public int MainAxisThickness { get { if (_walkerModel.MainAxisLocked) return AxisThicknessLocked; else return AxisThicknessFree; } }
@@ -72,20 +72,20 @@ namespace WalkerSimulator.Tubesheet.ViewModels
 
         internal bool SlideMainAxis(Point newPoint, Point oldPoint)
         {
-            int T=0;
+            int T = 0;
             switch (_walkerModel.SecAxisAngle)
             {
-                case AxisPosition.Up:
+                case AxisPosition.Right:
                     T = (int)((newPoint.X - oldPoint.X) / Pitch);
                     break;
-                case AxisPosition.Down:
+                case AxisPosition.Left:
                     T = -(int)((newPoint.X - oldPoint.X) / Pitch);
                     break;
-                case AxisPosition.Left:
+                case AxisPosition.Up:
                     T = (int)((newPoint.Y - oldPoint.Y) / Pitch);
                     break;
-                case AxisPosition.Right:
-                    T = -(int)((newPoint.X - oldPoint.X) / Pitch);
+                case AxisPosition.Down:
+                    T = -(int)((newPoint.Y - oldPoint.Y) / Pitch);
                     break;
             }
             if (Math.Abs(T) < 1)
@@ -100,17 +100,17 @@ namespace WalkerSimulator.Tubesheet.ViewModels
             int T=0;
             switch (_walkerModel.SecAxisAngle)
             {
-                case AxisPosition.Up:
-                    T = (int)((newPoint.X - oldPoint.X) / Pitch);
-                    break;
-                case AxisPosition.Down:
-                    T = -(int)((newPoint.X - oldPoint.X) / Pitch);
-                    break;
-                case AxisPosition.Left:
+                case AxisPosition.Right:
                     T = (int)((newPoint.Y - oldPoint.Y) / Pitch);
                     break;
-                case AxisPosition.Right:
+                case AxisPosition.Left:
+                    T = -(int)((newPoint.Y - oldPoint.Y) / Pitch);
+                    break;
+                case AxisPosition.Up:
                     T = -(int)((newPoint.X - oldPoint.X) / Pitch);
+                    break;
+                case AxisPosition.Down:
+                    T = (int)((newPoint.X - oldPoint.X) / Pitch);
                     break;
             }
             if (Math.Abs(T) < 1)

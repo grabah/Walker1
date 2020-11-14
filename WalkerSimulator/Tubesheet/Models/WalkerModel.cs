@@ -15,6 +15,9 @@ namespace WalkerSimulator.Tubesheet.Models
         private TubesheetModel _tubeSheet { get; }
         public const int SecAxisLenght = 24;
         public const int MainAxisLenght = 14;
+        public const int MainAxisMaxTranslate = 11;
+        public const int SecAxisMaxTranslate = 6;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,103 +28,95 @@ namespace WalkerSimulator.Tubesheet.Models
             SetDefaultPosition();
         }
 
-        private AxisPosition mainAxisAngle;
-        public AxisPosition MainAxisAngle { get { return mainAxisAngle; } set { mainAxisAngle = value; } }
+        public AxisPosition MainAxisAngle { get; set; }
         public int MainAxisTranslation { get; set; }
-
-        private AxisPosition secAxisAngle;
-        public AxisPosition SecAxisAngle { get { return secAxisAngle; } set { secAxisAngle = value; }}
-        private int secAxisTrans;
-        public int SecAxisTranslation
-        {
-            get { return secAxisTrans; }
-            set { secAxisTrans = value; { OnPropertyChange(); } }
-        }
-
+        public AxisPosition SecAxisAngle { get; set; }
+        public int SecAxisTranslation { get;set; }
         private bool axisLock;
         public bool MainAxisLocked { get { return axisLock; } set { axisLock = value; OnPropertyChange("MainAxisLocked"); OnPropertyChange("SecAxisLockedLocked"); } }
         public bool SecAxisLocked { get { return !MainAxisLocked; } set { MainAxisLocked = !value; } }
 
-        public Point CenterPosition { get; set; }
+        public Point RotationCenterPosition { get; set; }
+ 
         internal Point GetWorkHeadPosition()
         {
-            Point result = new Point(CenterPosition.X, CenterPosition.Y);
+            Point result = GetMainAxisPincerPoints()[1];
             switch (MainAxisAngle)
             {
                 case Models.AxisPosition.RightUp:
-                    result.X = CenterPosition.X + (MainAxisLenght / 2 + MainAxisTranslation + SecAxisTranslation+1);
-                    result.Y = CenterPosition.Y + (MainAxisLenght / 2 - SecAxisTranslation+1);
+                    result.X = result.X + 1;
+                    result.Y = result.Y + 1;
                     break;
                 case AxisPosition.LeftUp:
-                    result.X = CenterPosition.X - (MainAxisLenght / 2 + MainAxisTranslation + SecAxisTranslation + 1);
-                    result.Y = CenterPosition.Y + (MainAxisLenght / 2 - SecAxisTranslation + 1);
+                    result.X = result.X - 1;
+                    result.Y = result.Y + 1;
                     break;
                 case AxisPosition.LeftDown:
-                    result.X = CenterPosition.X - (MainAxisLenght / 2 + MainAxisTranslation + SecAxisTranslation + 1);
-                    result.Y = CenterPosition.Y - (MainAxisLenght / 2 - SecAxisTranslation + 1);
+                    result.X = result.X - 1;
+                    result.Y = result.Y - 1;
                     break;
                 case AxisPosition.RightDown:
-                    result.X = CenterPosition.X + (MainAxisLenght / 2 + MainAxisTranslation + SecAxisTranslation + 1);
-                    result.Y = CenterPosition.Y - (MainAxisLenght / 2 - SecAxisTranslation + 1);
+                    result.X = result.X + 1;
+                    result.Y = result.Y - 1;
                     break;
             }
             return result;
         }
         internal Point[] GetMainAxisPincerPoints()
         {
-            Point[] result = new Point[2] { new Point(CenterPosition.X, CenterPosition.Y), new Point(CenterPosition.X, CenterPosition.Y) };
+            Point[] result = new Point[2] { new Point( ), new Point( ) };
             switch (MainAxisAngle)
             {
                 case AxisPosition.RightUp:
-                    result[0].X = CenterPosition.X - (-MainAxisTranslation + MainAxisLenght / 2 - SecAxisTranslation );
-                    result[0].Y = CenterPosition.Y - (SecAxisTranslation + MainAxisLenght / 2);
+                    result[0].X = RotationCenterPosition.X - (MainAxisLenght / 2 + SecAxisTranslation);
+                    result[0].Y = RotationCenterPosition.Y - (MainAxisLenght / 2 + SecAxisTranslation );
                     result[1].X = result[0].X + MainAxisLenght;
                     result[1].Y = result[0].Y + MainAxisLenght;
                     break;
                 case AxisPosition.LeftUp:
-                    result[0].X = CenterPosition.X + (-MainAxisTranslation + MainAxisLenght / 2 - SecAxisTranslation );
-                    result[0].Y = CenterPosition.Y - (SecAxisTranslation + MainAxisLenght / 2);
+                    result[0].X = RotationCenterPosition.X + (MainAxisLenght / 2 + SecAxisTranslation);
+                    result[0].Y = RotationCenterPosition.Y - (MainAxisLenght / 2 + SecAxisTranslation);
                     result[1].X = result[0].X - MainAxisLenght;
                     result[1].Y = result[0].Y + MainAxisLenght;
                     break;
                 case AxisPosition.LeftDown:
-                    result[0].X = CenterPosition.X + (-MainAxisTranslation + MainAxisLenght / 2 - SecAxisTranslation );
-                    result[0].Y = CenterPosition.Y + (SecAxisTranslation + MainAxisLenght / 2);
+                    result[0].X = RotationCenterPosition.X + (MainAxisLenght / 2 + SecAxisTranslation);
+                    result[0].Y = RotationCenterPosition.Y + (MainAxisLenght / 2 + SecAxisTranslation);
                     result[1].X = result[0].X - MainAxisLenght;
                     result[1].Y = result[0].Y - MainAxisLenght;
                     break;
                 case AxisPosition.RightDown:
-                    result[0].X = CenterPosition.X - (-MainAxisTranslation + MainAxisLenght / 2 - SecAxisTranslation );
-                    result[0].Y = CenterPosition.Y + (SecAxisTranslation + MainAxisLenght / 2);
+                    result[0].X = RotationCenterPosition.X - (MainAxisLenght / 2 + SecAxisTranslation);
+                    result[0].Y = RotationCenterPosition.Y + (MainAxisLenght / 2 + SecAxisTranslation);
                     result[1].X = result[0].X + MainAxisLenght;
                     result[1].Y = result[0].Y - MainAxisLenght;
                     break;
             }
             return result;
         }
+         
 
         internal Point[] GetSecAxisPincerPoints()
         {
-            Point[] result = new Point[2] { new Point(CenterPosition.X, CenterPosition.Y), new Point(CenterPosition.X, CenterPosition.Y) };
+            Point[] result = new Point[2] { new Point(RotationCenterPosition.X, RotationCenterPosition.Y), new Point(RotationCenterPosition.X, RotationCenterPosition.Y) };
 
             switch (SecAxisAngle)
             {
+                case AxisPosition.Right:
+                    result[0].X = RotationCenterPosition.X - (SecAxisLenght / 2 + MainAxisTranslation);
+                    result[1].X = result[0].X + SecAxisLenght;
+                    break;
                 case AxisPosition.Up:
-                    result[0].X = CenterPosition.X - SecAxisLenght / 2;
-                    result[1].X = CenterPosition.X + SecAxisLenght / 2;
+                    result[0].Y = RotationCenterPosition.Y - (SecAxisLenght / 2 + MainAxisTranslation);
+                    result[1].Y = result[0].Y + SecAxisLenght;
                     break;
                 case AxisPosition.Left:
-                    result[0].Y = CenterPosition.Y - SecAxisLenght / 2;
-                    result[1].Y = CenterPosition.Y + SecAxisLenght / 2;
+                    result[0].X = RotationCenterPosition.X + (SecAxisLenght / 2 + MainAxisTranslation);
+                    result[1].X = result[0].X - SecAxisLenght;
                     break;
                 case AxisPosition.Down:
-                    result[0].X = CenterPosition.X + SecAxisLenght / 2;
-                    result[1].X = CenterPosition.X - SecAxisLenght / 2;
-
-                    break;
-                case AxisPosition.Right:
-                    result[0].Y = CenterPosition.Y + SecAxisLenght / 2;
-                    result[1].Y = CenterPosition.Y - SecAxisLenght / 2;
+                    result[0].Y = RotationCenterPosition.Y + (SecAxisLenght / 2 + MainAxisTranslation);
+                    result[1].Y = result[0].Y - SecAxisLenght;
                     break;
             }
             return result;
@@ -131,9 +126,9 @@ namespace WalkerSimulator.Tubesheet.Models
         {
             int x = _tubeSheet.MaxColumns / 2;
             int y = _tubeSheet.MaxRows / 2;
-            CenterPosition = new Point(x, y);
+            RotationCenterPosition = new Point(x, y);
             MainAxisAngle = Models.AxisPosition.RightUp;
-            SecAxisAngle = Models.AxisPosition.Up;
+            SecAxisAngle = Models.AxisPosition.Right;
             MainAxisTranslation = 0;
             SecAxisTranslation =0;
             MainAxisLocked = false;
@@ -141,7 +136,7 @@ namespace WalkerSimulator.Tubesheet.Models
 
         internal void WalkerMoveCenter(int x,int y)
         {
-             CenterPosition = new System.Drawing.Point(x, y);
+            RotationCenterPosition = new System.Drawing.Point(x, y);
             OnPropertyChange("WalkerMakeMove");
         }
 
@@ -155,18 +150,67 @@ namespace WalkerSimulator.Tubesheet.Models
                     DoMainAxisRotation();
                     break;
                 case WalkerMoveType.MainAxisTranslate:
-                    this.MainAxisTranslation = this.MainAxisTranslation + move.translation;
+                    DoMainAxisTranslation(move.translation);
                     break;
                 case WalkerMoveType.SecondaryAxisRotate:
                     DoSecAxisRotation();
-                   
                     break;
                 case WalkerMoveType.SecondaryAxisTranslate:
-                    this.SecAxisTranslation = this.SecAxisTranslation + move.translation;
+                    DoSecAxisTranslation(move.translation);
+                    
                     break;
             }
             OnPropertyChange("WalkerMakeMove");//temp
             return true;
+        }
+        private bool IsMoveLegal(WalkerMove move)
+        {
+            return true;
+        }
+        private void DoSecAxisTranslation(int translation)
+        {
+            if (SecAxisTranslation + translation > SecAxisMaxTranslate) //over the maximum translation
+                translation = SecAxisMaxTranslate - SecAxisTranslation; //just set it to max
+
+            if (SecAxisTranslation + translation < -SecAxisMaxTranslate) //over the maximum translation
+                translation = -(-SecAxisMaxTranslate - SecAxisTranslation); //just set it to -max
+
+            this.SecAxisTranslation = this.SecAxisTranslation + translation;
+            RecalculateCenterForAxisTranslation(MainAxisAngle, translation);
+        }
+
+        private void DoMainAxisTranslation(int translation)
+        {
+            if (MainAxisTranslation + translation > MainAxisMaxTranslate) //over the maximum translation
+                translation = MainAxisMaxTranslate - MainAxisTranslation; //just set it to max
+
+            if (MainAxisTranslation + translation < -MainAxisMaxTranslate) //over the maximum translation
+                translation = -(-MainAxisMaxTranslate - MainAxisTranslation); //just set it to max
+
+            this.MainAxisTranslation = this.MainAxisTranslation + translation;
+            RecalculateCenterForAxisTranslation(SecAxisAngle,translation);
+        }
+ 
+        private void RecalculateCenterForAxisTranslation(AxisPosition pos, int t)
+        {
+            Point result = new Point(RotationCenterPosition.X,RotationCenterPosition.Y);
+            if(pos== AxisPosition.LeftUp || pos== AxisPosition.Up || pos== AxisPosition.RightUp)
+            {
+                result.Y += t;
+            }
+            if (pos == AxisPosition.Down || pos == AxisPosition.RightDown || pos == AxisPosition.LeftDown)
+            {
+                result.Y -= t;
+            }
+            if (pos == AxisPosition.Right || pos == AxisPosition.RightDown || pos == AxisPosition.RightUp)
+            {
+                result.X += t;
+            }
+            if (pos == AxisPosition.Left || pos == AxisPosition.LeftUp || pos == AxisPosition.LeftDown)
+            {
+                result.X -= t;
+            }
+            RotationCenterPosition = result;
         }
 
         private void DoMainAxisRotation()
@@ -200,10 +244,7 @@ namespace WalkerSimulator.Tubesheet.Models
             return (AxisPosition)result;
         }
 
-        private bool IsMoveLegal(WalkerMove move)
-        {
-            return true;
-        }
+        
 
         private void OnPropertyChange([CallerMemberName] string property=null)
         {
@@ -217,13 +258,13 @@ namespace WalkerSimulator.Tubesheet.Models
     public enum AxisPosition
     {
         RightUp = 0,
-        Up,
-        RightDown,
         Right,
-        LeftDown,
+        RightDown,
         Down,
+        LeftDown,
+        Left,
         LeftUp,
-        Left
+        Up
     }
     public enum WalkerMoveType
     {

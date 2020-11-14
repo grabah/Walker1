@@ -8,9 +8,6 @@
              d:DesignHeight="311.918" d:DesignWidth="420.274">
 
     <Canvas x:Name="WalkerCanvas" MouseMove="WalkerCanvas_MouseMove" MouseUp="WalkerCanvas_MouseUp">
-        <Canvas.Background>
-            <SolidColorBrush Color="Beige" Opacity="0.01"/>
-        </Canvas.Background>
         <Canvas.LayoutTransform>
             <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
         </Canvas.LayoutTransform>
@@ -19,21 +16,21 @@
             X1="{Binding SLX1}" X2="{Binding SLX2}" Y1="{Binding SLY1}" Y2="{Binding SLY2}" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave" MouseDown="CenterHead_MouseDown">
         </Line>
         <Ellipse x:Name="SPincer1" Width="{Binding Pitch}" Height="{Binding Pitch}" Fill="{Binding SPincersColor}" 
-                  Canvas.Top="{Binding SY1}" Canvas.Left="{Binding SX1}" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave" MouseDown="CenterHead_MouseDown"/>
+                  Canvas.Top="{Binding SY1}" Canvas.Left="{Binding SX1}"/>
         <Ellipse x:Name="SPincer2" Width="{Binding Pitch}" Height="{Binding Pitch}" Fill="{Binding SPincersColor}" 
-                  Canvas.Top="{Binding SY2}" Canvas.Left="{Binding SX2}" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave" MouseDown="CenterHead_MouseDown"/>
+                  Canvas.Top="{Binding SY2}" Canvas.Left="{Binding SX2}" />
 
 
         <Line x:Name="MainAxis" StrokeThickness="{Binding MainAxisThickness}" Stroke="{Binding MainAxisColor}" 
             X1="{Binding MLX1}" X2="{Binding MLX2}" Y1="{Binding MLY1}" Y2="{Binding MLY2}" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave" MouseDown="CenterHead_MouseDown">
         </Line>
         <Ellipse x:Name="MPincer1" Width="{Binding Pitch}" Height="{Binding Pitch}" Fill="{Binding MPincersColor}" 
-                 Canvas.Top="{Binding MY1}" Canvas.Left="{Binding MX1}" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave"/>
+                 Canvas.Top="{Binding MY1}" Canvas.Left="{Binding MX1}"/>
         <Ellipse x:Name="MPincer2" Width="{Binding Pitch}" Height="{Binding Pitch}" Fill="{Binding MPincersColor}" 
-                 Canvas.Top="{Binding MY2}" Canvas.Left="{Binding MX2}" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave"/>
+                 Canvas.Top="{Binding MY2}" Canvas.Left="{Binding MX2}" />
 
         <Ellipse x:Name="WorkHead" Width="{Binding WorkHeadSize}" Height="{Binding WorkHeadSize}" 
-                 Canvas.Top="{Binding WHY}" Canvas.Left="{Binding WHX}" Fill="#B2342222" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave"/>
+                 Canvas.Top="{Binding WHY}" Canvas.Left="{Binding WHX}" Fill="#B2342222" />
         
         <Ellipse x:Name="CenterHead" Width="{Binding CenterSize}" Height="{Binding CenterSize}"
                 Canvas.Top="{Binding CenterY}" Canvas.Left="{Binding CenterX}" Fill="White" MouseEnter="Shape_MouseEnter" MouseLeave="Shape_MouseLeave" MouseDown="CenterHead_MouseDown" />
