@@ -21,28 +21,29 @@ namespace WalkerSimulator.Tubesheet
     /// </summary>
     public partial class WalkerCommandsView : UserControl
     {
+        private WalkerVM walkerVM { get { return (WalkerVM)DataContext; } }
         public WalkerCommandsView()
         {
             InitializeComponent();
         }
         private void buttonMain_Click(object sender, RoutedEventArgs e)
         {
-            ((WalkerVM)DataContext).RotateMainAxis();
+            walkerVM.RotateMainAxis();
         }
 
         private void buttonSec_Click(object sender, RoutedEventArgs e)
         {
-            ((WalkerVM)DataContext).RotateSecAxis();
+            walkerVM.RotateSecAxis();
         }
 
         private void buttonClear_Click(object sender, RoutedEventArgs e)
         {
-            ((WalkerVM)DataContext).ClearMovesLog();
+            walkerVM.ClearMovesLog();
         }
 
         internal void SetupTextBox()
         {
-            ((WalkerVM)DataContext).PropertyChanged += WalkerCommandsView_PropertyChanged;
+            walkerVM.PropertyChanged += WalkerCommandsView_PropertyChanged;
         }
 
         private void WalkerCommandsView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -51,6 +52,11 @@ namespace WalkerSimulator.Tubesheet
             {
                 textBox.ScrollToEnd();
             }
+        }
+
+        private async void buttonStartWalker_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            await  walkerVM.RunAlgorithmAsync();
         }
     }
 }

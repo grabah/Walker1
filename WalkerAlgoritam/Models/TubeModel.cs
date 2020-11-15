@@ -23,11 +23,11 @@ namespace WalkerSimulator.Tubesheet.Models
         //Model
         private TubeStatus oldStatus;
         private TubeStatus status;
-        internal TubeStatus Status { get { return status; }  set { oldStatus = status; status = value; OnPropertyChange(); } }
-        internal int Row { get; set; }
-        internal int Column { get; set; }
+        public TubeStatus Status { get { return status; }  set { oldStatus = status; status = value; OnPropertyChange(); } }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
-        internal void ChangeStatus(TubeStatus target)
+        public void ChangeStatus(TubeStatus target)
         {
             if (Status == TubeStatus.Target && target == TubeStatus.Target)
                 Status = oldStatus;
@@ -52,7 +52,7 @@ namespace WalkerSimulator.Tubesheet.Models
         }
     }
 
-    enum TubeStatus
+   public  enum TubeStatus
     { 
         Unknown = 0,
         Plugged = 1,

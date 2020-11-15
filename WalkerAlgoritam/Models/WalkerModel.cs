@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using WalkerAlgoritam.WalkerAlg;
 
 namespace WalkerSimulator.Tubesheet.Models
 {
@@ -31,17 +32,17 @@ namespace WalkerSimulator.Tubesheet.Models
         public AxisPosition MainAxisAngle { get; set; }
         public int MainAxisTranslation { get; set; }
         public AxisPosition SecAxisAngle { get; set; }
-        public int SecAxisTranslation { get;set; }
+        public int SecAxisTranslation { get; set; }
         private bool axisLock;
         public bool MainAxisLocked { get { return axisLock; } set { axisLock = value; OnPropertyChange("MainAxisLocked"); OnPropertyChange("SecAxisLockedLocked"); } }
         public bool SecAxisLocked { get { return !MainAxisLocked; } set { MainAxisLocked = !value; } }
 
         public Point RotationCenterPosition { get; set; }
         private int logCount;
-        private StringBuilder movesLog=new StringBuilder();
+        private StringBuilder movesLog = new StringBuilder();
         public string MovesLog { get { return movesLog.ToString(); } }
 
-        internal Point GetWorkHeadPosition()
+        public Point GetWorkHeadPosition()
         {
             Point result = GetMainAxisPincerPoints()[1];
             switch (MainAxisAngle)
@@ -65,14 +66,14 @@ namespace WalkerSimulator.Tubesheet.Models
             }
             return result;
         }
-        internal Point[] GetMainAxisPincerPoints()
+        public Point[] GetMainAxisPincerPoints()
         {
-            Point[] result = new Point[2] { new Point( ), new Point( ) };
+            Point[] result = new Point[2] { new Point(), new Point() };
             switch (MainAxisAngle)
             {
                 case AxisPosition.RightUp:
                     result[0].X = RotationCenterPosition.X - (MainAxisLenght / 2 + SecAxisTranslation);
-                    result[0].Y = RotationCenterPosition.Y - (MainAxisLenght / 2 + SecAxisTranslation );
+                    result[0].Y = RotationCenterPosition.Y - (MainAxisLenght / 2 + SecAxisTranslation);
                     result[1].X = result[0].X + MainAxisLenght;
                     result[1].Y = result[0].Y + MainAxisLenght;
                     break;
@@ -97,9 +98,9 @@ namespace WalkerSimulator.Tubesheet.Models
             }
             return result;
         }
-         
 
-        internal Point[] GetSecAxisPincerPoints()
+
+        public Point[] GetSecAxisPincerPoints()
         {
             Point[] result = new Point[2] { new Point(RotationCenterPosition.X, RotationCenterPosition.Y), new Point(RotationCenterPosition.X, RotationCenterPosition.Y) };
 
@@ -133,21 +134,21 @@ namespace WalkerSimulator.Tubesheet.Models
             MainAxisAngle = Models.AxisPosition.RightUp;
             SecAxisAngle = Models.AxisPosition.Right;
             MainAxisTranslation = 0;
-            SecAxisTranslation =0;
+            SecAxisTranslation = 0;
             MainAxisLocked = false;
         }
 
-        internal void WalkerMoveCenter(int x,int y)
+        public void WalkerMoveCenter(int x, int y)
         {
             RotationCenterPosition = new System.Drawing.Point(x, y);
             OnPropertyChange("WalkerMakeMove");
         }
 
-        public bool WalkerMakeMove(WalkerMove move, bool undo=false)
+        public bool WalkerMakeMove(WalkerMove move, bool undo = false)
         {
             if (!IsMoveLegal(move))
             {
-                LogMove(move, true);
+                LogMove(move, true,"Can't Lock the pincers");
                 return false;
             }
             switch (move.type)
@@ -165,9 +166,10 @@ namespace WalkerSimulator.Tubesheet.Models
                     DoSecAxisTranslation(move.translation);
                     break;
             }
-            if (IsPointOutsideOfSheet(GetWorkHeadPosition()))
+            //if head leaves the tubeSheet do the undo but dont undo the undo
+            if ((IsPointOutsideOfSheet(GetWorkHeadPosition()) || DidWorkHeadWentOutsideOfSheet(move)) && !undo)
             {
-                LogMove(move, true);
+                LogMove(move, true,"WorkHead Outside of TubeSheet");
                 UndoMove(move);
                 return false;
             }
@@ -195,7 +197,6 @@ namespace WalkerSimulator.Tubesheet.Models
             this.SecAxisTranslation = this.SecAxisTranslation + translation;
             RecalculateCenterForAxisTranslation(MainAxisAngle, translation);
         }
-
         private void DoMainAxisTranslation(int translation)
         {
             SecAxisLocked = true;
@@ -263,9 +264,6 @@ namespace WalkerSimulator.Tubesheet.Models
                 result = result + 8;
             return (AxisPosition)result;
         }
-
-        
-
         private void OnPropertyChange([CallerMemberName] string property=null)
         {
             if(PropertyChanged !=null)
@@ -275,12 +273,41 @@ namespace WalkerSimulator.Tubesheet.Models
         }
 
         //MovingChecks
-        private bool IsPointOutsideOfSheet(Point pt)
+        private bool DidWorkHeadWentOutsideOfSheet(WalkerMove move)
         {
-            if (pt.X > _tubeSheet.MaxColumns || pt.X < 0)
+            if (move.type != WalkerMoveType.MainAxisRotate)
+                return false;
+            //Check whether it went out during the rotation
+            double d = (MainAxisLenght/ 2 + 1 - SecAxisTranslation) * Math.Sqrt(2);
+            int i=(int) Math.Ceiling(d);
+            switch (SecAxisAngle)
+            {
+                case AxisPosition.Right:
+                    if (RotationCenterPosition.Y + i >= _tubeSheet.MaxRows)
+                        return true;
+                    return false;
+                case AxisPosition.Left:
+                    if (RotationCenterPosition.Y -i < 0)
+                        return true;
+                    return false;
+                case AxisPosition.Down:
+                    if (RotationCenterPosition.X + i >= _tubeSheet.MaxRows)
+                        return true;
+                    return false;
+                case AxisPosition.Up:
+                    if (RotationCenterPosition.X - i < 0)
+                        return true;
+                    return false;
+            }
+            return false;
+        }
+        private bool IsPointOutsideOfSheet(Point pt ) 
+        {
+            if (pt.X >= _tubeSheet.MaxColumns || pt.X < 0)
                 return true;
-            if (pt.Y > _tubeSheet.MaxRows || pt.Y < 0)
-                return true; ;
+            if (pt.Y >= _tubeSheet.MaxRows || pt.Y < 0)
+                return true;
+
             return false;
         }
 
@@ -313,10 +340,16 @@ namespace WalkerSimulator.Tubesheet.Models
         }
 
         //Loging
-        private void LogMove(WalkerMove move, bool ilegalAttemp)
+        internal void WriteToLog(string v)
+        {
+            movesLog.AppendLine(v);
+            OnPropertyChange("MovesLog");
+        }
+
+        private void LogMove(WalkerMove move, bool ilegalAttemp, string illegalReason="")
         {
             if (ilegalAttemp)
-                movesLog.AppendLine(logCount.ToString() + ". ***Illegal attemp***" + move.ToString());
+                movesLog.AppendLine(logCount.ToString() + ". ***Illegal attemp***" + illegalReason);
             else
             {
                 movesLog.AppendLine(logCount.ToString() + ". " + move.ToString());
@@ -330,7 +363,12 @@ namespace WalkerSimulator.Tubesheet.Models
             logCount = 1;
             OnPropertyChange("MovesLog");
         }
-
+        //Automatic moves
+        public async Task RunAlgorithmAsync()
+        {
+            WalkerAlg alg = new  WalkerAlg(this, _tubeSheet);
+            await alg.RunAsync();
+        }
     }
     public enum AxisPosition
     {

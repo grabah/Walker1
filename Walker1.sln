@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkerSimulator", "WalkerSimulator\WalkerSimulator.csproj", "{F9761FDD-1C74-42D6-8D59-D43910862364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkerAlgoritam", "WalkerAlgoritam\WalkerAlgoritam.csproj", "{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkerAlgorithm", "WalkerAlgoritam\WalkerAlgorithm.csproj", "{EA75CCE2-40E8-4A59-ABD0-D18C3A3F3523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

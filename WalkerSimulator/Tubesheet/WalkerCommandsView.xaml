@@ -11,7 +11,7 @@
             <Button x:Name="buttonSec" Content="Rotate" Height="40" Margin="5,112,5,0" VerticalAlignment="Top" Click="buttonSec_Click"/>
             <Label x:Name="label" Content="Main Axis" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Width="95"/>
             <Label x:Name="label1" Content="Secondary Axis" Margin="0,81,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"/>
-            <Button x:Name="buttonStartWalker" Content="Start" Margin="5,194,5,0" VerticalAlignment="Top" Height="36"/>
+            <Button x:Name="buttonStartWalker" Content="Start" Margin="5,194,5,0" VerticalAlignment="Top" Height="36" Click="buttonStartWalker_ClickAsync"/>
             <Button x:Name="buttonClear" Content="ClearTargets" Margin="5,241,5,0" VerticalAlignment="Top" Height="36" Click="buttonClear_Click"/>
         </Grid>
         <Grid Margin="105,0,0,0">

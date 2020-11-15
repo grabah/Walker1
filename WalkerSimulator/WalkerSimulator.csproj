@@ -82,18 +82,15 @@
     <Compile Include="Tubesheet\TubeView.xaml.cs">
       <DependentUpon>TubeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tubesheet\Models\TubeModel.cs" />
     <Compile Include="Tubesheet\TubeSheetView.xaml.cs">
       <DependentUpon>TubeSheetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tubesheet\Models\TubeSheetModel.cs" />
     <Compile Include="Tubesheet\ViewModels\TubeSheetVM.cs" />
     <Compile Include="Tubesheet\ViewModels\TubeVM.cs" />
     <Compile Include="Tubesheet\ViewModels\WalkerVM.cs" />
     <Compile Include="Tubesheet\WalkerView.xaml.cs">
       <DependentUpon>WalkerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tubesheet\Models\WalkerModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -151,9 +148,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WalkerAlgoritam\WalkerAlgoritam.csproj">
+    <ProjectReference Include="..\WalkerAlgoritam\WalkerAlgorithm.csproj">
       <Project>{ea75cce2-40e8-4a59-abd0-d18c3a3f3523}</Project>
-      <Name>WalkerAlgoritam</Name>
+      <Name>WalkerAlgorithm</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

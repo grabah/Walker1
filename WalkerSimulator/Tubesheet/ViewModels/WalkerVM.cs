@@ -137,6 +137,10 @@ namespace WalkerSimulator.Tubesheet.ViewModels
         {
             _walkerModel.ClearLog();
         }
+        internal async Task  RunAlgorithmAsync()
+        {
+            await _walkerModel.RunAlgorithmAsync();
+        }
         private void _walkerModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             
